@@ -1,0 +1,19 @@
+# Env settings (database connections, etc)
+server/.env
+server/pm2-env.json
+client/.env.development
+client/.env.production
+server-frontend/.env
+server-frontend/pm2-env.json
+
+# Compiled applications
+client/build
+server/build
+
+# dependencies
+client/node_modules
+server/node_modules
+server-frontend/node_modules
+
+# Compiled python files
+*.pyc
