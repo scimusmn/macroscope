@@ -6,15 +6,13 @@ import {
 } from 'graphql-server-express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { createServer } from 'http';
-import jwt from 'express-jwt';
-import jwksRsa from 'jwks-rsa';
 import { createExpressContext } from 'apollo-resolvers';
-import { GraphQLError } from 'graphql';
+import { GraphQLError, execute, subscribe } from 'graphql';
 import { formatError as apolloFormatError, createError } from 'apollo-errors';
 import schema from './schema/schema';
 import db from './connectors/db';
-
 /**
  * Environment setup
  *
@@ -106,23 +104,9 @@ const formatError = (error) => {
  * a context object for each graphql request.
  */
 app.use('/graphql', bodyParser.json(), graphqlExpress((request, response) => {
-  let context = {};
-  if (request.user) {
-    const { user } = request;
-    context = createExpressContext({
-      user,
-    }, response);
-  } else {
-    const user = '';
-    context = createExpressContext({
-      user,
-    }, response);
-  }
-
   return {
     schema,
     formatError,
-    context,
   };
 }));
 
@@ -136,6 +120,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress((request, response) => {
  */
 app.use('/graphiql', graphiqlExpress({
   endpointURL: ENDPOINT_URL,
+  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
 }));
 
 /**
@@ -143,6 +128,16 @@ app.use('/graphiql', graphiqlExpress({
  */
 const server = createServer(app);
 server.listen(PORT, () => {
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema,
+  }, {
+    server,
+    path: '/subscriptions',
+  });
+
   // Ensure DB tables are created
   db.sequelize.sync();
 });
+
