@@ -2,12 +2,12 @@ import React from 'react';
 import {
   Nav,
   NavItem,
+  NavLink,
   Navbar,
   NavbarBrand,
   NavbarToggler,
   Collapse,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
 
 class AppNav extends React.Component {
   constructor(props) {
@@ -37,7 +37,10 @@ class AppNav extends React.Component {
             <Nav className="mr-auto" navbar>
               {/* Anonymous user navigation */}
               <NavItem>
-                <Link className="nav-link" to="/start">Start</Link>
+                <NavLink className="nav-link" href="/start">Start</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink className="nav-link" href="/admin">Admin</NavLink>
               </NavItem>
             </Nav>
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import StartMutationContainer from '../Start/StartMutationContainer';
+import AdminMutationContainer from '../Admin/AdminMutationContainer';
 import Home from '../Pages/Home';
 import NoMatch from '../Pages/NoMatch';
 
@@ -17,6 +18,7 @@ function AppRoutes() {
             render={props => <Home {...props} />}
           />
           <Route exact path="/start" component={StartMutationContainer} />
+          <Route exact path="/admin" component={AdminMutationContainer} />
           <Route component={NoMatch} />
         </Switch>
 
