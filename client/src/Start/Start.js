@@ -17,6 +17,7 @@ class Start extends React.Component {
 
   handleStartClick() {
     // Do mutation
+    this.props.handleClick();
   }
 
   render() {
