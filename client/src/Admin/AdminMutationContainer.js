@@ -12,11 +12,9 @@ class AdminContainer extends React.Component {
    * Pass form values to the mutation query and go to the profile view
    */
   mutationSendMessage = (type) => {
-    console.log(type);
-    console.log('----^ ^ ^ ^ ^ type ^ ^ ^ ^ ^----');
     this.props.mutate({
       variables: {
-        type: 'run-selected',
+        type,
         timestamp: new Date().toISOString(),
       },
     });
